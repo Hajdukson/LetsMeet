@@ -1,10 +1,11 @@
 ﻿using LetsMeet.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LetsMeet.DataSetLogic
 {
-    public class DataSetter
+    public class DataSetters
     {
         public bool CanAddMeeting(Worker worker, Meeting newMeeting)
         {
@@ -22,7 +23,32 @@ namespace LetsMeet.DataSetLogic
             }
             return false;
         }
-        public WorkingHours SetInterval(Worker firstworker, Worker secoundworker)
+        public IList<Meeting> WhenWorkersCanMeetTogether(Worker firstworker, Worker secoundworker)
+        {
+            IList<Meeting> firstWorkerMeetings = firstworker.Meetings;
+            IList<Meeting> secoundWorkerMeetings = secoundworker.Meetings;
+
+            WorkingHours interval = SetInterval(firstworker, secoundworker);
+
+            ICollection<Meeting> firstWorkerMeetingsInInterval = DeletMeetingOutOfInterval(firstWorkerMeetings, interval);
+            ICollection<Meeting> secoundWorkerMeetingsInInterval = DeletMeetingOutOfInterval(secoundWorkerMeetings, interval);
+
+            foreach (var first in firstWorkerMeetingsInInterval)
+            {
+                Console.WriteLine($"{first.Start} || {first.End}");
+            }
+
+            Console.WriteLine();
+
+            foreach (var secound in secoundWorkerMeetingsInInterval)
+            {
+                Console.WriteLine($"{secound.Start} || {secound.End}");
+            }
+
+
+            return new List<Meeting>();
+        }
+        private WorkingHours SetInterval(Worker firstworker, Worker secoundworker)
         {
             WorkingHours firstWokrerWorkingHours = firstworker.WorkingHours;
             WorkingHours secoundWorkerWorkingHours = secoundworker.WorkingHours;
@@ -42,15 +68,11 @@ namespace LetsMeet.DataSetLogic
             return workingHours;
         }
 
-        public string WhenWorkersCanMeetTogether(Worker firstworker, Worker secoundworker)
+
+        private IList<Meeting> DeletMeetingOutOfInterval(IList<Meeting> meetings, WorkingHours interval)
         {
-            ICollection<Meeting> firstWorkerMeetings = firstworker.Meetings;
-            ICollection<Meeting> secoundWorkerMeetings = secoundworker.Meetings;
-
-            WorkingHours interval = SetInterval(firstworker, secoundworker);
-
-
-            return "";
+            return meetings.Where((m => interval.End.CompareTo(m.Start) > 0)
+                                        ).ToList().Where(m => interval.Start.CompareTo(m.End) < 0).ToList();
         }
     }
 }

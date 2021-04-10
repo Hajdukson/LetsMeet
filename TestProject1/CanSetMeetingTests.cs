@@ -12,7 +12,7 @@ namespace TestProject1
         [TestMethod]
         public void CanAddMeetingTest_False_1()
         {
-            DataSetter dh = new DataSetter();
+            DataSetters dh = new DataSetters();
             var worker = new Worker();
             worker.WorkingHours = new WorkingHours(DateTime.Parse("7:30"),
                                        DateTime.Parse("19:30"));
@@ -33,7 +33,7 @@ namespace TestProject1
         [TestMethod]
         public void CanAddMeetingTest_False_2()
         {
-            DataSetter dh = new DataSetter();
+            DataSetters dh = new DataSetters();
             var worker = new Worker();
             worker.WorkingHours = new WorkingHours(DateTime.Parse("7:30"),
                                        DateTime.Parse("19:30"));
@@ -54,7 +54,7 @@ namespace TestProject1
         [TestMethod]
         public void CanAddMeetingTest_False_3()
         {
-            DataSetter dh = new DataSetter();
+            DataSetters dh = new DataSetters();
             var worker = new Worker();
             worker.WorkingHours = new WorkingHours(DateTime.Parse("7:30"),
                                        DateTime.Parse("19:30"));
@@ -75,7 +75,7 @@ namespace TestProject1
         [TestMethod]
         public void CanAddMeetingTest_True_1()
         {
-            DataSetter dh = new DataSetter();
+            DataSetters dh = new DataSetters();
             var worker = new Worker();
             worker.WorkingHours = new WorkingHours(DateTime.Parse("7:30"),
                                        DateTime.Parse("19:30"));
@@ -96,7 +96,7 @@ namespace TestProject1
         [TestMethod]
         public void CanAddMeetingTest_True_2()
         {
-            DataSetter dh = new DataSetter();
+            DataSetters dh = new DataSetters();
             var worker = new Worker();
             worker.WorkingHours = new WorkingHours(DateTime.Parse("7:30"),
                                        DateTime.Parse("19:30"));
@@ -117,7 +117,7 @@ namespace TestProject1
         [TestMethod]
         public void CanAddMeetingTest_True_3()
         {
-            DataSetter dh = new DataSetter();
+            DataSetters dh = new DataSetters();
             var worker = new Worker();
             worker.WorkingHours = new WorkingHours(DateTime.Parse("7:30"),
                                        DateTime.Parse("19:30"));
@@ -138,7 +138,7 @@ namespace TestProject1
         [TestMethod]
         public void CanAddMeetingTest_True_4()
         {
-            DataSetter dh = new DataSetter();
+            DataSetters dh = new DataSetters();
             var worker = new Worker();
             worker.WorkingHours = new WorkingHours(DateTime.Parse("7:30"),
                                        DateTime.Parse("19:30"));
@@ -159,7 +159,7 @@ namespace TestProject1
         [TestMethod]
         public void CanAddMeetingTest_True_5()
         {
-            DataSetter dh = new DataSetter();
+            DataSetters dh = new DataSetters();
             var worker = new Worker();
             worker.WorkingHours = new WorkingHours(DateTime.Parse("7:30"),
                                        DateTime.Parse("19:30"));

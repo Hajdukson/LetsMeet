@@ -6,7 +6,6 @@ namespace LetsMeet.Domain.Models
     {
         public Meeting(DateTime start, DateTime end) : base(start, end)
         {
-            TimeSpan checkeMeetingDuration = (end - start);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace TestProject1
         [TestMethod]
         public void SetIntervalTest_1()
         {
-            DataSetter dh = new DataSetter();
+            DataSetters dh = new DataSetters();
 
             var worker1 = new Worker
             {
@@ -32,7 +32,7 @@ namespace TestProject1
         [TestMethod]
         public void SetIntervalTest_2()
         {
-            DataSetter dh = new DataSetter();
+            DataSetters dh = new DataSetters();
 
             var worker1 = new Worker
             {

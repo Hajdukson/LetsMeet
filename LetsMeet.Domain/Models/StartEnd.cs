@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LetsMeet.Domain.Models
 {
-    public class StartEnd
+    public abstract class StartEnd
     {
         public StartEnd()
         {
@@ -18,5 +18,6 @@ namespace LetsMeet.Domain.Models
 
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
+
     }
 }

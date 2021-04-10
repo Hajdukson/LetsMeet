@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LetsMeet.DataSetLogic\LetsMeet.DataSetLogic.csproj" />
     <ProjectReference Include="..\LetsMeet.Domain\LetsMeet.Domain.csproj" />
   </ItemGroup>
 

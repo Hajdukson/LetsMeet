@@ -6,6 +6,6 @@ namespace LetsMeet.Domain.Models
     {
         public string Name { get; set; }
         public WorkingHours WorkingHours { get; set; }
-        public IList<Meeting> Meetings { get; set; }
+        public List<Meeting> Meetings { get; set; }
     }
 }

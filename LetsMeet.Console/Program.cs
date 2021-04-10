@@ -1,4 +1,5 @@
-﻿using LetsMeet.Domain.Models;
+﻿using LetsMeet.DataSetLogic;
+using LetsMeet.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,25 @@ namespace LetsMeet
     {
         static void Main(string[] args)
         {
+            DataSetters dataSetter = new DataSetters();
+
+            IList<Worker> workers = PopulateData();
+
+            var interval = dataSetter.WhenWorkersCanMeetTogether(workers[0], workers[1]);
+
+            TimeSpan span = TimeSpan.FromMinutes(30);
+
+            Console.WriteLine(span);
+
+
+            Worker worker = new Worker();
+
+
+            Worker worker2 = new Worker();
+
+
+            var t = worker.Equals(worker2);
+
 
             Console.ReadKey();
         }
