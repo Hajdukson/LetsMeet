@@ -16,21 +16,40 @@ namespace LetsMeet
 
             var interval = dataSetter.WhenWorkersCanMeetTogether(workers[0], workers[1]);
 
-            TimeSpan span = TimeSpan.FromMinutes(30);
-
-            Console.WriteLine(span);
 
 
-            Worker worker = new Worker();
+            ICollection<Meeting> meetings = SetPossibleMeetings();
+            //DateTime dateTime = DateTime.MinValue;
 
+            //for (int i= 0; i < 48; i ++)
+            //{
+            //    meetings.Add(new Meeting(dateTime, dateTime + TimeSpan.FromMinutes(30)));
+            //    dateTime += TimeSpan.FromMinutes(30);
+            //}
 
-            Worker worker2 = new Worker();
+            //var check = meetings;
 
+            //foreach (var meeting in meetings)
+            //{
+            //    Console.WriteLine();
+            //}
 
-            var t = worker.Equals(worker2);
-
+            //Meeting meeting = new Meeting(DateTime.Parse("09:00"), DateTime.Parse("9:30"));
 
             Console.ReadKey();
+        }
+        static IList<Meeting> SetPossibleMeetings()
+        {
+            List<Meeting> posibleMeetings = new List<Meeting>();
+            DateTime dateTime = DateTime.Today;
+
+            for (int i = 0; i < 47; i++)
+            {
+                posibleMeetings.Add(
+                    new Meeting(dateTime, dateTime += TimeSpan.FromMinutes(30)));
+            }
+
+            return posibleMeetings;
         }
         static List<Worker> PopulateData()
         {

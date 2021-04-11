@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace TestProject1
 {
     [TestClass]
-    public class CanSetMeetingTests
+    public class CanAddMeetingTests
     {
         [TestMethod]
         public void CanAddMeetingTest_False_1()
