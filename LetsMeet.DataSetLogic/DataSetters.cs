@@ -7,22 +7,23 @@ namespace LetsMeet.DataSetLogic
 {
     public class DataSetters
     {
-        public bool CanAddMeeting(Worker worker, Meeting newMeeting)
-        {
-            if (worker.WorkingHours.Start.CompareTo(newMeeting.Start) < 0
-                && worker.WorkingHours.End.CompareTo(newMeeting.End) > 0)
-            {
-                IEnumerable<Meeting> meetings = worker.Meetings;
-                foreach (var meeting in meetings)
-                {
-                    if (!(meeting.Start.CompareTo(newMeeting.Start) < 0
-                        || meeting.End.CompareTo(newMeeting.End) > 0))
-                        return false;
-                }
-                return true;
-            }
-            return false;
-        }
+        //public bool CanAddMeeting(Worker worker, Meeting newMeeting)
+        //{
+        //    if (worker.WorkingHours.Start.CompareTo(newMeeting.Start) < 0
+        //        && worker.WorkingHours.End.CompareTo(newMeeting.End) > 0)
+        //    {
+        //        IEnumerable<Meeting> meetings = worker.Meetings;
+        //        foreach (var meeting in meetings)
+        //        {
+        //            if (!(meeting.Start.CompareTo(newMeeting.Start) < 0
+        //                || meeting.End.CompareTo(newMeeting.End) > 0))
+        //                return false;
+        //        }
+        //        return true;
+        //    }
+
+        //    return false;
+        //}
         public IList<Meeting> WhenWorkersCanMeetTogether(Worker firstworker, Worker secoundworker)
         {
             IList<Meeting> firstWorkerMeetings = firstworker.Meetings;
@@ -33,72 +34,66 @@ namespace LetsMeet.DataSetLogic
             ICollection<Meeting> firstWorkerMeetingsInInterval = DeletMeetingOutOfInterval(firstWorkerMeetings, interval);
             ICollection<Meeting> secoundWorkerMeetingsInInterval = DeletMeetingOutOfInterval(secoundWorkerMeetings, interval);
 
-            //Console.WriteLine($"I: {interval.Start} || {interval.End}" + Environment.NewLine);
-
-            //foreach (var firstWorkerMeetingInInterval in firstWorkerMeetingsInInterval)
-            //{
-            //    Console.WriteLine($"F: {firstWorkerMeetingInInterval.Start} || {firstWorkerMeetingInInterval.End}");
-            //}
-
-            //Console.WriteLine();
-
-            //foreach (var secoundWorkerMeetingInInterval in secoundWorkerMeetingsInInterval)
-            //{
-            //    Console.WriteLine($"S: {secoundWorkerMeetingInInterval.Start} || {secoundWorkerMeetingInInterval.End}");
-            //}
-            //List<Meeting> expectedMeetings = new List<Meeting>
-            //{
-            //    new Meeting(DateTime.Parse("11:30"),  DateTime.Parse("12:00")),
-            //    new Meeting(DateTime.Parse("15:00"), DateTime.Parse("16:00")),
-            //    new Meeting(DateTime.Parse("18:00"), DateTime.Parse("18:30"))
-            //};
+            //Worker worker = CreatAbstractWorker(firstWorkerMeetingsInInterval, listOfMeetingBothOfWorkers);
 
             IList<Meeting> listOfMeetingBothOfWorkers = new List<Meeting>();
-            IList<Meeting> possibleMeetings = SetPossibleMeetings();
 
             foreach (var meeting in firstWorkerMeetingsInInterval)
-            {
                 listOfMeetingBothOfWorkers.Add(meeting);
-            }
             foreach (var meeting in secoundWorkerMeetingsInInterval)
-            {
                 listOfMeetingBothOfWorkers.Add(meeting);
-            }
 
-            var testmettings = listOfMeetingBothOfWorkers.OrderBy(m => m.Start);
+            var orderMeetings = listOfMeetingBothOfWorkers.OrderBy(m => m.Start);
 
-            Worker worker = new Worker();
             List<Meeting> meetings = new List<Meeting>();
 
-            foreach (var test in testmettings)
+            foreach (var meeting in orderMeetings)
             {
-                meetings.Add(test);
+                meetings.Add(meeting);
             }
 
-            worker.WorkingHours = interval;
-            worker.Meetings = meetings;
+            List<Meeting> workersMeetings = SetBusyTime(meetings);
 
-            foreach (var meeting in worker.Meetings)
+            Worker worker = new Worker
             {
-                Console.WriteLine($"{meeting.Start} || {meeting.End}");
-            }
-            Meeting newMetting = new Meeting(DateTime.Parse("11:30"), DateTime.Parse("12:00"));
+                WorkingHours = interval,
+                Meetings = workersMeetings
+            };
 
-            int i = 0;
+            
+            if (worker.Meetings[0].Start.CompareTo(interval.Start) < 0)
+                worker.Meetings[0].Start = interval.Start;
 
-            List<Meeting> newMettings = new List<Meeting>();
-            foreach (var possible in possibleMeetings)
+            List<Meeting> resultList = new List<Meeting>();
+
+            //11.04.2021 10:00:00 
+
+            //11.04.2021 10:00:00 || 11.04.2021 10:30:00
+            //11.04.2021 10:30:00 || 11.04.2021 11:30:00
+            //11.04.2021 12:00:00 || 11.04.2021 13:00:00
+            //11.04.2021 13:00:00 || 11.04.2021 14:30:00
+            //11.04.2021 14:30:00 || 11.04.2021 15:00:00
+            //11.04.2021 16:00:00 || 11.04.2021 18:00:00
+
+            //11.04.2021 18:30:00 
+
+            for (int i = 0; i < worker.Meetings.Count; i++)
             {
-                if (CanAddMeeting(worker, possible))
-                    newMettings.Add(possible);
+                if (i == worker.Meetings.Count - 1)
+                    break;
+
+                if (!(worker.Meetings[i].End.CompareTo(worker.Meetings[i + 1].Start) >= 0))
+                    resultList.Add(new Meeting(worker.Meetings[i].End, worker.Meetings[i + 1].Start));
             }
+            if (worker.Meetings[worker.Meetings.Count - 1].End.CompareTo(worker.WorkingHours.End) < 0)
+                resultList.Add(new Meeting(worker.Meetings[worker.Meetings.Count - 1].End, worker.WorkingHours.End));
 
-            List<Meeting> meetings1 = newMettings;
-
-
-            return new List<Meeting>();
+            return resultList;
         }
-
+        private Worker CreatAbstractWorker(Worker firstWorker, Worker secoundWorker)
+        {
+            return new Worker();
+        }
         public WorkingHours SetInterval(Worker firstworker, Worker secoundworker)
         {
             WorkingHours firstWokrerWorkingHours = firstworker.WorkingHours;
@@ -125,30 +120,37 @@ namespace LetsMeet.DataSetLogic
             return meetings.Where((m => interval.End.CompareTo(m.Start) > 0)
                                         ).ToList().Where(m => interval.Start.CompareTo(m.End) < 0).ToList();
         }
-
-        private IList<Meeting> SetPossibleMeetings()
+        private List<Meeting> SetBusyTime(List<Meeting> meetings)
         {
-            IList<Meeting> posibleMeetings = new List<Meeting>();
-            DateTime dateTime = DateTime.Today;
+            //11.04.2021 09:30:00 || 11.04.2021 10:30:00
+            //11.04.2021 10:00:00 || 11.04.2021 11:30:00
+            //11.04.2021 12:00:00 || 11.04.2021 13:00:00
+            //11.04.2021 12:30:00 || 11.04.2021 14:30:00
+            //11.04.2021 14:30:00 || 11.04.2021 15:00:00
+            //11.04.2021 16:00:00 || 11.04.2021 18:00:00
+            //11.04.2021 16:00:00 || 11.04.2021 17:00:00
 
-            for (int i = 0; i < 48; i++)
-            {
-                posibleMeetings.Add(
-                    new Meeting(dateTime, dateTime += TimeSpan.FromMinutes(30)));
-            }
-
-            return posibleMeetings;
-        }
-        private IList<Meeting> SetBusyTime(List<Meeting> meetings)
-        {
-            IList<Meeting> result = new List<Meeting>();
             int i = 0;
             foreach (var meeting in meetings)
             {
-                if(meeting.End.CompareTo(meetings[i + 1].Start) > 0)
+                if (meeting.End.CompareTo(meetings[i + 1].Start) > 0)
+                {
+                    meetings[i + 1].Start = meeting.End;
+                }
+                i++;
+                if (i == meetings.Count - 1)
+                    break;
             }
 
-            return result;
+            var foundMeetings = meetings.Where(m => m.Start.CompareTo(m.End) > 0).ToList();
+
+            foreach (var meeting in foundMeetings)
+            {
+                meetings.Remove(meeting);
+            }
+
+
+            return meetings;
         }
     }
 }
