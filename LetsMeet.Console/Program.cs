@@ -10,32 +10,41 @@ namespace LetsMeet
     {
         static void Main(string[] args)
         {
-            DataSetters dataSetter = new DataSetters();
-
             IList<Worker> workers = PopulateData();
-
-            var interval = dataSetter.WhenWorkersCanMeetTogether(workers[0], workers[1]);
-
-            //DateTime dateTime = DateTime.MinValue;
-
-            //for (int i= 0; i < 48; i ++)
-            //{
-            //    meetings.Add(new Meeting(dateTime, dateTime + TimeSpan.FromMinutes(30)));
-            //    dateTime += TimeSpan.FromMinutes(30);
-            //}
-
-            //var check = meetings;
-
-            //foreach (var meeting in meetings)
-            //{
-            //    Console.WriteLine();
-            //}
-
-            //Meeting meeting = new Meeting(DateTime.Parse("09:00"), DateTime.Parse("9:30"));
+            Execute(workers[0], workers[1], (converResult, workers) =>
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Console.WriteLine($"{workers[i].Name} data\nWorking hours: [{workers[i].WorkingHours.Start.ToString("HH:mm")} - " +
+                        $"{workers[i].WorkingHours.End.ToString("HH:mm")}]\nMeetings:"); 
+                    foreach (var meeting in workers[i].Meetings)
+                    {
+                        Console.WriteLine($"[{meeting.Start.ToString("HH:mm")} - {meeting.End.ToString("HH:mm")}]");
+                    }
+                    Console.Write("\n");
+                }
+                string output = "";
+                foreach (var item in converResult){output += item; output += ", ";}
+                Console.WriteLine($"Workers can meet at: [{output.TrimEnd(new char[] { ',', ' ' })}]");
+            });
 
             Console.ReadKey();
         }
-        static List<Worker> PopulateData()
+        static void Execute(Worker firstWorker, Worker secoundWorker, Action<string[], IList<Worker>> converResult)
+        {
+            DataSetters dataSetter = new DataSetters();
+
+            var creatAbstractWorker = dataSetter.CreatAbstractWorker(firstWorker, secoundWorker);
+            var listOfMeetings = dataSetter.CreatListOfMeetingsForWorkers(creatAbstractWorker);
+
+            string[] output = new string[listOfMeetings.Count];
+            for (int i = 0; i < listOfMeetings.Count; i++)
+            {
+                output[i] = $"[{listOfMeetings[i].Start.ToString("HH:mm")} - {listOfMeetings[i].End.ToString("HH:mm")}]";
+            }
+            converResult.Invoke(output, PopulateData());
+        }
+        static IList<Worker> PopulateData()
         {
             return new List<Worker>
             {

@@ -39,8 +39,9 @@ namespace TestProject1
                     new Meeting(DateTime.Parse("16:00"), DateTime.Parse("17:00"))
                 }
             };
+            var abstractWorker = ds.CreatAbstractWorker(firstWorker, secoundWorker);
 
-            var actualMeetings = ds.WhenWorkersCanMeetTogether(firstWorker, secoundWorker);
+            var actualMeetings = ds.CreatListOfMeetingsForWorkers(abstractWorker);
 
             //[["11:30","12:00"], ["15:00", "16:00"], ["18:00", "18:30"]]
             List<Meeting> expectedMeetings = new List<Meeting>
@@ -62,4 +63,5 @@ namespace TestProject1
                 throw new AssertFailedException("lists have a different number of objects");
         }
     }
+
 }

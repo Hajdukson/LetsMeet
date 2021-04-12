@@ -8,7 +8,7 @@ namespace LetsMeet.Domain.Models
         {
             TimeSpan timeSpan = (end - start);
             if (!(timeSpan >= TimeSpan.FromMinutes(30)))
-                throw new ArgumentException("the duration of the meeting should be no shorter than 30 minutes");
+                throw new ArgumentException("the duration of the meeting must be no shorter than 30 minutes");
         }
     }
 }
