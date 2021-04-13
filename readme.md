@@ -1,6 +1,6 @@
 # Let's meet algorithm
 
-The algorithm take two workers on input, who had fixed appointments and returns possible meetings for them.
+The algorithm takes two workers on input, who had fixed appointments and returns possible meetings for them.
 
 Example input: 
 ```C#
@@ -46,5 +46,5 @@ Working hours: [10:00 - 20:00]
 [14:30 - 15:00]
 [16:00 - 17:00]
 
-Workers can meet at: [[11:30 - 12:00], [15:00 - 16:00], [18:00 - 18:30],[19:30 - 20:00]]
+Workers can meet at: [[11:30 - 12:00], [15:00 - 16:00], [18:00 - 18:30], [19:30 - 20:00]]
 ```
