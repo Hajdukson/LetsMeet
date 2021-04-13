@@ -8,7 +8,6 @@ namespace LetsMeet
 {
     public class Program
     {
-
         static void Main(string[] args)
         {
             IList<Worker> _workers = PopulateData2();
@@ -38,12 +37,11 @@ namespace LetsMeet
             for (int i = 0; i < listOfMeetings.Count; i++)
                 output += $"[{listOfMeetings[i].Start.ToString("HH:mm")} - {listOfMeetings[i].End.ToString("HH:mm")}], ";
 
-
             Console.WriteLine("\nWorkers can meet at: " + output.TrimEnd(new char[] {',', ' ' }) + "]");
         }
         static IList<Worker> PopulateData()
         {
-            //Meeting meeting = new Meeting(30);
+            Meeting meeting = new Meeting(30);
             return new List<Worker>
             {
                 new Worker{

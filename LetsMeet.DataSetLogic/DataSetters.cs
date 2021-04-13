@@ -13,7 +13,7 @@ namespace LetsMeet.DataSetLogic
     /// </remarks>
     public class DataSetters
     {
-        /// <param name="abstractWorker">Takes abstract worker whitch you can creat using CreatAbstractWorker function</param>
+        /// <param name="abstractWorker">Takes abstract worker whitch you can creat using CreatAbstractWorker function. It checks also </param>
         /// <returns>The finel result</returns>
         public IList<Meeting> CreatListOfMeetingsForWorkers(Worker abstractWorker)
         {
