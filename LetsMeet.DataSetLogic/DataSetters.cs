@@ -23,10 +23,12 @@ namespace LetsMeet.DataSetLogic
                 if (i == abstractWorker.Meetings.Count - 1)
                     break;
 
-                if (!(abstractWorker.Meetings[i].End.CompareTo(abstractWorker.Meetings[i + 1].Start) >= 0))
+                if (!(abstractWorker.Meetings[i].End.CompareTo(abstractWorker.Meetings[i + 1].Start) >= 0) && 
+                    Meeting.Duration <= (abstractWorker.Meetings[i + 1].Start - abstractWorker.Meetings[i].End))
                     resultList.Add(new Meeting(abstractWorker.Meetings[i].End, abstractWorker.Meetings[i + 1].Start));
             }
-            if (abstractWorker.Meetings[abstractWorker.Meetings.Count - 1].End.CompareTo(abstractWorker.WorkingHours.End) < 0)
+            if ((abstractWorker.Meetings[abstractWorker.Meetings.Count - 1].End.CompareTo(abstractWorker.WorkingHours.End) < 0)
+                && Meeting.Duration <= (abstractWorker.WorkingHours.End - abstractWorker.Meetings[abstractWorker.Meetings.Count - 1].End))
                 resultList.Add(new Meeting(abstractWorker.Meetings[abstractWorker.Meetings.Count - 1].End, abstractWorker.WorkingHours.End));
 
             return resultList;

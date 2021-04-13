@@ -62,6 +62,60 @@ namespace TestProject1
             else
                 throw new AssertFailedException("lists have a different number of objects");
         }
+
+        [TestMethod]
+        public void CanMeetTogetherTest_2()
+        {
+            DataSetters ds = new DataSetters();
+
+            Worker firstWorker = new Worker
+            {
+                Name = "Wojtek",
+                WorkingHours = new WorkingHours(DateTime.Parse("09:00"), DateTime.Parse("20:00")),
+                Meetings = new List<Meeting>
+                    {
+                        new Meeting(DateTime.Parse("09:00"), DateTime.Parse("10:30")),
+                        new Meeting(DateTime.Parse("12:00"), DateTime.Parse("13:00")),
+                        new Meeting(DateTime.Parse("16:00"), DateTime.Parse("18:00")),
+                        new Meeting(DateTime.Parse("18:30"), DateTime.Parse("19:30"))
+                    }
+            };
+            Worker secoundWorker = new Worker
+            {
+                Name = "Michał",
+                WorkingHours = new WorkingHours(DateTime.Parse("10:00"), DateTime.Parse("20:00")),
+                Meetings = new List<Meeting>
+                {
+                    new Meeting(DateTime.Parse("10:00"), DateTime.Parse("11:30")),
+                    new Meeting(DateTime.Parse("12:30"), DateTime.Parse("14:30")),
+                    new Meeting(DateTime.Parse("14:30"), DateTime.Parse("15:00")),
+                    new Meeting(DateTime.Parse("16:00"), DateTime.Parse("17:00"))
+                }
+            };
+            var abstractWorker = ds.CreatAbstractWorker(firstWorker, secoundWorker);
+
+            var actualMeetings = ds.CreatListOfMeetingsForWorkers(abstractWorker);
+
+            //[["11:30","12:00"], ["15:00", "16:00"], ["18:00", "18:30"]]
+            List<Meeting> expectedMeetings = new List<Meeting>
+            {
+                new Meeting(DateTime.Parse("11:30"),  DateTime.Parse("12:00")),
+                new Meeting(DateTime.Parse("15:00"), DateTime.Parse("16:00")),
+                new Meeting(DateTime.Parse("18:00"), DateTime.Parse("18:30")),
+                new Meeting(DateTime.Parse("19:30"), DateTime.Parse("20:00"))
+            };
+
+            if (actualMeetings.Count == 4)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    Assert.AreEqual(expectedMeetings[i].Start, actualMeetings[i].Start);
+                    Assert.AreEqual(expectedMeetings[i].End, actualMeetings[i].End);
+                }
+            }
+            else
+                throw new AssertFailedException("lists have a different number of objects");
+        }
     }
 
 }

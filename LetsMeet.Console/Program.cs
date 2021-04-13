@@ -8,44 +8,42 @@ namespace LetsMeet
 {
     public class Program
     {
+
         static void Main(string[] args)
         {
-            IList<Worker> workers = PopulateData();
-            Execute(workers[0], workers[1], (converResult, workers) =>
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    Console.WriteLine($"{workers[i].Name} data\nWorking hours: [{workers[i].WorkingHours.Start.ToString("HH:mm")} - " +
-                        $"{workers[i].WorkingHours.End.ToString("HH:mm")}]\nMeetings:"); 
-                    foreach (var meeting in workers[i].Meetings)
-                    {
-                        Console.WriteLine($"[{meeting.Start.ToString("HH:mm")} - {meeting.End.ToString("HH:mm")}]");
-                    }
-                    Console.Write("\n");
-                }
-                string output = "";
-                foreach (var item in converResult){output += item; output += ", ";}
-                Console.WriteLine($"Workers can meet at: [{output.TrimEnd(new char[] { ',', ' ' })}]");
-            });
+            IList<Worker> _workers = PopulateData2();
+            Execute(_workers[0], _workers[1]);
 
             Console.ReadKey();
         }
-        static void Execute(Worker firstWorker, Worker secoundWorker, Action<string[], IList<Worker>> converResult)
+        static void Execute(Worker firstWorker, Worker secoundWorker)
         {
+            Console.WriteLine($"{firstWorker.Name}' s data");
+            Console.WriteLine($"Working hours: [{firstWorker.WorkingHours.Start.ToString("HH:mm")} - {firstWorker.WorkingHours.End.ToString("HH:mm")}]");
+            foreach (var meeting in firstWorker.Meetings)
+                Console.WriteLine($"[{meeting.Start.ToString("HH:mm")} - {meeting.End.ToString("HH: mm")}]");
+
+            Console.WriteLine();
+
+            Console.WriteLine($"{secoundWorker.Name}' s data");
+            Console.WriteLine($"Working hours: [{secoundWorker.WorkingHours.Start.ToString("HH:mm")} - {secoundWorker.WorkingHours.End.ToString("HH:mm")}]");
+            foreach (var meeting in secoundWorker.Meetings)
+                Console.WriteLine($"[{meeting.Start.ToString("HH:mm")} - {meeting.End.ToString("HH:mm")}]");
             DataSetters dataSetter = new DataSetters();
 
             var creatAbstractWorker = dataSetter.CreatAbstractWorker(firstWorker, secoundWorker);
             var listOfMeetings = dataSetter.CreatListOfMeetingsForWorkers(creatAbstractWorker);
 
-            string[] output = new string[listOfMeetings.Count];
+            string output = "[";
             for (int i = 0; i < listOfMeetings.Count; i++)
-            {
-                output[i] = $"[{listOfMeetings[i].Start.ToString("HH:mm")} - {listOfMeetings[i].End.ToString("HH:mm")}]";
-            }
-            converResult.Invoke(output, PopulateData());
+                output += $"[{listOfMeetings[i].Start.ToString("HH:mm")} - {listOfMeetings[i].End.ToString("HH:mm")}], ";
+
+
+            Console.WriteLine("\nWorkers can meet at: " + output.TrimEnd(new char[] {',', ' ' }) + "]");
         }
         static IList<Worker> PopulateData()
         {
+            //Meeting meeting = new Meeting(30);
             return new List<Worker>
             {
                 new Worker{
@@ -71,6 +69,35 @@ namespace LetsMeet
                 },
             };
         }
-
+        static IList<Worker> PopulateData2()
+        {
+            //Meeting meeting = new Meeting(60);
+            return new List<Worker> {
+                new Worker
+                {
+                    Name = "Wojtek",
+                    WorkingHours = new WorkingHours(DateTime.Parse("09:00"), DateTime.Parse("20:00")),
+                    Meetings = new List<Meeting>
+                        {
+                            new Meeting(DateTime.Parse("09:00"), DateTime.Parse("10:30")),
+                            new Meeting(DateTime.Parse("12:00"), DateTime.Parse("13:00")),
+                            new Meeting(DateTime.Parse("16:00"), DateTime.Parse("18:00")),
+                            new Meeting(DateTime.Parse("18:30"), DateTime.Parse("19:30"))
+                        }
+                },
+                new Worker
+                {
+                    Name = "Michał",
+                    WorkingHours = new WorkingHours(DateTime.Parse("10:00"), DateTime.Parse("20:00")),
+                    Meetings = new List<Meeting>
+                    {
+                        new Meeting(DateTime.Parse("10:00"), DateTime.Parse("11:30")),
+                        new Meeting(DateTime.Parse("12:30"), DateTime.Parse("14:30")),
+                        new Meeting(DateTime.Parse("14:30"), DateTime.Parse("15:00")),
+                        new Meeting(DateTime.Parse("16:00"), DateTime.Parse("17:00"))
+                    }
+                }
+            };
+        }
     }
 }
