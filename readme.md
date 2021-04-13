@@ -33,18 +33,17 @@ return new List<Worker>
 Output should be:
 ```
 Wojtek' s data
-Working hours: [09:00 - 20:00]
+Working hours: [09:00 - 19:55]
 [09:00 - 10: 30]
 [12:00 - 13: 00]
 [16:00 - 18: 00]
-[18:30 - 19: 30]
 
 Michał' s data
-Working hours: [10:00 - 20:00]
+Working hours: [10:00 - 18:30]
 [10:00 - 11:30]
 [12:30 - 14:30]
 [14:30 - 15:00]
 [16:00 - 17:00]
 
-Workers can meet at: [[11:30 - 12:00], [15:00 - 16:00], [18:00 - 18:30], [19:30 - 20:00]]
+Workers can meet at: [[11:30 - 12:00], [15:00 - 16:00], [18:00 - 18:30]]
 ```

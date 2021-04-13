@@ -10,7 +10,7 @@ namespace LetsMeet
     {
         static void Main(string[] args)
         {
-            IList<Worker> _workers = PopulateData2();
+            IList<Worker> _workers = PopulateData();
             Execute(_workers[0], _workers[1]);
 
             Console.ReadKey();
